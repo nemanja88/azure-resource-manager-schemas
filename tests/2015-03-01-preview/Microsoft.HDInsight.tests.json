@@ -1,0 +1,79 @@
+{
+    "tests": [
+        {
+            "name": "hdinsight cluster - minimal resource",
+            "definition": "http://schema.management.azure.com/schemas/2015-03-01-preview/Microsoft.HDInsight.json#/resourceDefinitions/clusters",
+            "json": {
+                "location": "West US",
+                "tags": { "tag1": "value1", "tag2": "value2" },
+                "properties": {
+                    "clusterVersion": "3.2",
+                    "osType": "Linux",
+                    "clusterDefinition": {
+                        "kind": "hadoop",
+
+                        "configurations": {
+                            "gateway": {
+                                "restAuthCredential.isEnabled": true,
+                                "restAuthCredential.username": "hadoopuser",
+                                "restAuthCredential.password": "9I897mNE405773P"
+                            },
+
+                            "core-site": {
+                                "fs.defaultFSk": "wasb://giyertest111@giyerwestus1.blob.core.windows.net",
+                                "fs.azure.account.key.giyerwestus1.blob.core.windows.net": "##DEFAULTFS_KEY##"
+                            }
+                        }
+                    },
+
+                    "computeProfile": {
+                        "roles": [
+                            {
+                                "name": "headnode",
+
+                                "targetInstanceCount": 1,
+
+                                "hardwareProfile": {
+                                    "vmSize": "Large"
+                                },
+
+                                "osProfile": {
+                                    "linuxOperatingSystemProfile": {
+                                        "username": "hadoop",
+                                        "sshProfile": {
+                                            "publicKeys": [ 
+                                                { "certificateData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQdxir92ao4neLuSJH9eOqYF+8GaOhhfmqGKBd4dEuqyrd6ppXmihWZHY/HzMSfkRqQuYJsaJFRFo3P0ExasQoiBbnNOfsxOVrtjoW9NxG5JXeQrFatuYkhLnpLwjL+hNtZ9UWJPMJE2+xSO6Nb7QaOgY1ADfvK2eISAbbuMm1PM/zCQVg3Io2bSlD+DW4rLZZ389VHfzUSd6HNz4oS7czWLpOI/v0faMFMWTcimcN73vJSB5etTf7/JPqwNLq49ZCj0FddjjfeFeCK7z1eYQyfdJ/+wLInSsddfcJ6rXlQourQZfI0BvIn4x+XYpqMNtK6UnQylzwZ5NCu6oxx/c9" }
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "workernode",
+
+                                "targetInstanceCount": 1,
+
+                                "hardwareProfile": {
+                                    "vmSize": "Large"
+                                },
+
+                                "osProfile": {
+                                    "linuxOperatingSystemProfile": {
+                                        "username": "hadoop",
+                                        "sshProfile": {
+                                            "publicKeys": [
+                                                { "certificateData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQdxir92ao4neLuSJH9eOqYF+8GaOhhfmqGKBd4dEuqyrd6ppXmihWZHY/HzMSfkRqQuYJsaJFRFo3P0ExasQoiBbnNOfsxOVrtjoW9NxG5JXeQrFatuYkhLnpLwjL+hNtZ9UWJPMJE2+xSO6Nb7QaOgY1ADfvK2eISAbbuMm1PM/zCQVg3Io2bSlD+DW4rLZZ389VHfzUSd6HNz4oS7czWLpOI/v0faMFMWTcimcN73vJSB5etTf7/JPqwNLq49ZCj0FddjjfeFeCK7z1eYQyfdJ/+wLInSsddfcJ6rXlQourQZfI0BvIn4x+XYpqMNtK6UnQylzwZ5NCu6oxx/c9" }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+
+        }
+    ]
+}
+

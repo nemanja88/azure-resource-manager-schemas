@@ -1,0 +1,173 @@
+{
+    "id": "http://schema.management.azure.com/schemas/2015-03-01-preview/Microsoft.HDInsight.json#",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+     "title": "Microsoft.HDInsight",
+    "description": "Microsoft HDInsight Resource Types",
+    "resourceDefinitions": {
+        "clusters": {
+            "type": "object",
+            "description": "Microsoft HDInsight cluster",
+
+            "properties": {
+                "type": {
+                    "enum": [
+                        "Microsoft.HDInsight/clusters"
+                    ]
+                },
+                "apiVersion": {
+                    "enum": [
+                        "2015-03-01-preview"
+                    ]
+                },
+                "name": {
+                    "oneOf": [
+                        {
+                            "type": "string",
+                            "pattern": "^[a-zA-Z][0-9a-zA-Z-]*[a-zA-Z0-9]$"
+                        },
+                        { "$ref": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#/definitions/expression" }
+                    ],
+                    "description": "Microsoft.HDInsight/clusters: Name of the cluster."
+                },
+
+                "clusterVersion": {
+                    "oneOf": [
+                        {
+                            "type": "string",
+                            "pattern": "^[0-9]+\\.[0-9]+$"
+                        },
+                        { "$ref": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#/definitions/expression" }
+                    ],
+                    "description": "Microsoft.HDInsight/clusters: Major.Minor version of the cluster"
+                },
+                "osType": {
+                    "oneOf": [
+                        {
+                            "enum": [
+                                "Linux",
+                                "Windows"
+                            ]
+                        },
+                        { "$ref": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#/definitions/expression" }
+                    ],
+                    "description": "Microsoft.HDInsight/clusters: OS type"
+                },
+                "clusterDefinition": {
+                    "type": "object",
+                    "kind": {
+                        "oneOf": [
+                            {
+                                "enum": [
+                                    "hadoop",
+                                    "hbase",
+                                    "storm",
+                                    "spark",
+                                    "kafka"
+                                ]
+                            },
+                            { "$ref": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#/definitions/expression" }
+                        ],
+                        "description": "Microsoft.HDInsight/clusters: Major.Minor version of the cluster"
+                    },
+
+                    "configurations": {
+                        "type": "object",
+                        "required": [ "gateway", "core-site" ],
+                        "gateway": {
+                            "type": "object",
+                            "restAuthCredential.isEnabled": {
+                                "oneOf": [
+                                    {
+                                        "enum": [
+                                            "true",
+                                            "false"
+                                        ]
+                                    },
+                                    { "$ref": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#/definitions/expression" }
+                                ],
+                                "description": "Microsoft.HDInsight/clusters: is http access enabled"
+                            },
+                            "restAuthCredential.username": {
+                                "oneOf": [
+                                    {
+                                        "type": "string",
+                                        "pattern": "^[a-zA-Z][0-9a-zA-Z-]*[a-zA-Z0-9]$"
+                                    },
+                                    { "$ref": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#/definitions/expression" }
+                                ],
+                                "description": "Microsoft.HDInsight/clusters: HTTP Username of the cluster."
+                            },
+                            "restAuthCredential.password": {
+                                "oneOf": [
+                                    {
+                                        "type": "string",
+                                        "pattern": "^.*(?=.{10,})(?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]).*$"
+                                    },
+                                    { "$ref": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#/definitions/expression" }
+                                ],
+                                "description": "Microsoft.HDInsight/clusters: HTTP Password of the cluster."
+                            }
+                        },
+
+                        "core-site": {
+                            "type": "object",
+                            "fs.defaultFS": {
+                                "oneOf": [
+                                    {
+                                        "type": "string",
+                                        "pattern": "^wasb:\/\/[a-z0-9](?:[a-z0-9]|(\\-(?!\\-))){1,61}[a-z0-9]$|^\\$root\\@^[0-9a-z]*$.blob.core.windows.net$"
+                                    },
+                                    { "$ref": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#/definitions/expression" }
+                                ],
+                                "description": "Microsoft.HDInsight/clusters: Default storage account."
+                            },
+                            "required": [ "fs.defaultFS" ]
+                        },
+                        "required": [ "gateway", "core-site" ]
+                    },
+                    "required": [ "kind", "configurations" ]
+                },
+                "computeProfile": {
+                    "type": "object",
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "name": "string",
+                            "targetInstanceCount": "integer",
+                            "hardwareProfile": {
+                                "type": "object",
+                                "vmSize": "string"
+                            },
+                            "osProfile": {
+                                "type": "object",
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "linuxOperatingSystemProfile": {
+
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "windowsOperatingSystemProfile": {
+
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "uniqueItems": true
+                    }
+                },
+
+                "required": [
+                    "clusterVersion",
+                    "osType",
+                    "clusterDefinition",
+                    "computeProfile"
+                ]
+            }
+        }
+    }
+}
